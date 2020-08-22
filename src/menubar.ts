@@ -9,8 +9,8 @@
  *-------------------------------------------------------------------------------------------------------*/
 
 import { Color } from './common/color';
-import { remote, MenuItem, Menu } from 'electron';
-import { $, addDisposableListener, EventType, removeClass, addClass, append, removeNode, isAncestor, EventLike, EventHelper } from './common/dom';
+import { MenuItem, Menu } from 'electron';
+import { $, addDisposableListener, EventType, removeClass, addClass, append, removeNode} from './common/dom';
 import { CETMenu, cleanMnemonic, MENU_MNEMONIC_REGEX, MENU_ESCAPED_MNEMONIC_REGEX, IMenuOptions, IMenuStyle } from './menu/menu';
 import { StandardKeyboardEvent } from './browser/keyboardEvent';
 import { KeyCodeUtils, KeyCode } from './common/keyCodes';
@@ -18,6 +18,9 @@ import { Disposable, IDisposable, dispose } from './common/lifecycle';
 import { Event, Emitter } from './common/event';
 import { domEvent } from './browser/event';
 import { isMacintosh } from './common/platform';
+
+// we don't have typings yet for the module - so for a quick win, we require it in
+const remote = require("@electron/remote");
 
 export interface MenubarOptions {
 	/**
@@ -740,11 +743,11 @@ class ModifierKeyEmitter extends Emitter<IModifierKeyStatus> {
 			}
 		}));
 
-		this._subscriptions.push(domEvent(document.body, 'mousedown', true)(e => {
+		this._subscriptions.push(domEvent(document.body, 'mousedown', true)(() => {
 			this._keyStatus.lastKeyPressed = undefined;
 		}));
 
-		this._subscriptions.push(domEvent(window, 'blur')(e => {
+		this._subscriptions.push(domEvent(window, 'blur')(() => {
 			this._keyStatus.lastKeyPressed = undefined;
 			this._keyStatus.lastKeyReleased = undefined;
 			this._keyStatus.altKey = false;

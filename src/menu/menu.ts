@@ -8,7 +8,7 @@
  *  Licensed under the MIT License. See License in the project root for license information.
  *-------------------------------------------------------------------------------------------------------*/
 
-import { Color } from "../common/color";
+import { Color } from "..";
 import { addClass, addDisposableListener, EventType, isAncestor, hasClass, append, addClasses, $, removeNode, EventHelper, EventLike } from "../common/dom";
 import { KeyCode, KeyCodeUtils, KeyMod } from "../common/keyCodes";
 import { isLinux } from "../common/platform";

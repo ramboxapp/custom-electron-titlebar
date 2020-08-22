@@ -2,14 +2,9 @@
 
 This project is a typescript library for electron that allows you to configure a fully customizable title bar.
 
-### **It is a library for electron, it cannot be used on a basic website.**
-
-**The farewells are sad. But since I don't have time to keep this project, I have decided to archive it on August 14, 2020.**
-
-**I have to thank the hundreds of people who supported and used custom electron titlebar, without you this would not have been achieved.**
+### **It is a library for electron 10+, it cannot be used on a basic website or with previous versions of electron.**
 
 [![LICENSE](https://img.shields.io/github/license/AlexTorresSk/custom-electron-titlebar.svg)](https://github.com/AlexTorresSk/custom-electron-titlebar/blob/master/LICENSE)
-[![NPM Version](https://img.shields.io/npm/v/custom-electron-titlebar.svg)](https://npmjs.org/package/custom-electron-titlebar)
 
 ![Preview 1](screenshots/window_1.png)
 
@@ -217,14 +212,22 @@ The following CSS classes exist and can be used to customize the titlebar
 | .action-item                | Description missing                             |
 | .action-menu-item           | Styles action menu elements. (Example: color)   |
 
+## Goal
+
+Electron is deprecating the remote module. It is deactivated by default and
+will be removed with electron 12 in the near future. The great custom-electron-titlebar 
+by AlexTorresSk has been archived recently and is not maintained anymore. 
+This fork is a version for electron 10+ and uses the new userland implementation
+of the remote module [@electron/remote](https://www.npmjs.com/package/@electron/remote). 
+
 ## Contributing
 
-Many thanks to all the people who support this project through issues and pull request.
-If you want to contribute with this project, all the issues and pull request are welcome.
+Many thanks to all the people who supported Alex' project through issues and pull request.
+If you want to contribute with this electron 10 fork, all the issues and pull request are welcome.
 
 You can also:<br>
-<a href="https://www.buymeacoffee.com/bjkGN4g" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+<a href="https://www.buymeacoffee.com/Treverix" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 ## License
 
-This project is under the [MIT](https://github.com/AlexTorresSk/custom-electron-titlebar/blob/master/LICENSE) license.
+This fork of the archived [custom-electron-titlebar project by AlexTorresSk](https://github.com/AlexTorresSk/custom-electron-titlebar) is under the [MIT](https://github.com/Treverix/custom-electron-titlebar/blob/master/LICENSE) license.

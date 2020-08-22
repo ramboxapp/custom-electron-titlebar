@@ -1,7 +1,7 @@
 {
   "name": "custom-electron-titlebar",
-  "version": "3.2.3",
-  "description": "Custom Electron Titlebar is a library for electron that allows you to configure a fully customizable title bar.",
+  "version": "4.0.0",
+  "description": "Custom Electron Titlebar is a library for electron 10+ that allows you to configure a fully customizable title bar.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -10,10 +10,11 @@
     "start": "npm run build && npm run dev"
   },
   "author": "Alex Torres <alextorressk@gmail.com>",
+  "contributors": ["Andreas Dolk"],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AlexTorresSk/custom-electron-titlebar.git"
+    "url": "git+https://github.com/Treverix/custom-electron-titlebar.git"
   },
   "keywords": [
     "typescript",
@@ -24,16 +25,18 @@
     "linux"
   ],
   "bugs": {
-    "url": "https://github.com/AlexTorresSk/custom-electron-titlebar/issues"
+    "url": "https://github.com/Treverix/custom-electron-titlebar/issues"
   },
-  "homepage": "https://github.com/AlexTorresSk/custom-electron-titlebar#readme",
+  "homepage": "https://github.com/Treverix/custom-electron-titlebar#readme",
   "directories": {
     "example": "example",
     "lib": "lib"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@electron/remote": "^1.0.0"
+  },
   "devDependencies": {
-    "electron": "^9.1.0",
-    "typescript": "^3.9.7"
+    "electron": "^10.0.0-beta.25",
+    "typescript": "^4.0.2"
   }
 }

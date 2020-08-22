@@ -12,8 +12,11 @@ import { isMacintosh, isWindows, isLinux } from './common/platform';
 import { Color, RGBA } from './common/color';
 import { EventType, hide, show, removeClass, addClass, append, $, addDisposableListener, prepend, removeNode } from './common/dom';
 import { Menubar, MenubarOptions } from './menubar';
-import { remote, BrowserWindow } from 'electron';
+import { BrowserWindow } from 'electron';
 import { Theme, Themebar } from './themebar';
+
+// we don't have typings yet for the module - so for a quick win, we require it in
+const remote = require("@electron/remote");
 
 const INACTIVE_FOREGROUND_DARK = Color.fromHex('#222222');
 const ACTIVE_FOREGROUND_DARK = Color.fromHex('#333333');
@@ -117,7 +120,7 @@ export class Titlebar extends Themebar {
 	private isInactive: boolean;
 
 	private currentWindow: BrowserWindow;
-	private _options: TitlebarOptions;
+	private readonly _options: TitlebarOptions;
 	private menubar: Menubar;
 
 	private events: { [k: string]: Function; };
@@ -133,10 +136,6 @@ export class Titlebar extends Themebar {
 		this.createTitlebar();
 		this.updateStyles();
 		this.registerTheme(this._options.iconsTheme);
-
-		window.addEventListener('beforeunload', () => {
-			this.removeListeners();
-		});
 	}
 
 	private closeMenu = () => {
@@ -160,7 +159,6 @@ export class Titlebar extends Themebar {
 		}
 	}
 
-	// From https://github.com/panjiang/custom-electron-titlebar/commit/825bff6b15e9223c1160208847b4c5010610bcf7
 	private removeListeners() {
 		for (const k in this.events) {
 			this.currentWindow.removeListener(k as any, this.events[k]);
