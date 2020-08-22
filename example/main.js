@@ -2,6 +2,9 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 
+// initialize the remote module
+require('@electron/remote/main').initialize()
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -13,6 +16,7 @@ function createWindow() {
     height: 600,
     frame: false,
     webPreferences: {
+      enableRemoteModule: true,
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
     }

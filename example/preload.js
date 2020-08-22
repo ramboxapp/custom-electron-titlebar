@@ -4,7 +4,7 @@ const path = require('path');
 const url = require('url');
 
 //const customTitlebar = require('custom-electron-titlebar');
-const customTitlebar = require('..'); // Delete this line and uncomment top line
+const customTitlebar = require('../lib'); // Delete this line and uncomment top line
 
 window.addEventListener('DOMContentLoaded', () => {
   new customTitlebar.Titlebar({
