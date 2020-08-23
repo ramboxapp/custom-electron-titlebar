@@ -10,7 +10,7 @@
 
 import { Color } from './common/color';
 import { MenuItem, Menu } from 'electron';
-import { $, addDisposableListener, EventType, removeClass, addClass, append, removeNode} from './common/dom';
+import { $, addDisposableListener, EventType, removeClass, addClass, append, removeNode} from './browser/dom';
 import { CETMenu, cleanMnemonic, MENU_MNEMONIC_REGEX, MENU_ESCAPED_MNEMONIC_REGEX, IMenuOptions, IMenuStyle } from './menu/menu';
 import { StandardKeyboardEvent } from './browser/keyboardEvent';
 import { KeyCodeUtils, KeyCode } from './common/keyCodes';

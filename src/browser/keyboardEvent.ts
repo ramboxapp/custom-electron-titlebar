@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import * as browser from './browser';
 import { KeyCode, KeyCodeUtils, KeyMod, SimpleKeybinding } from '../common/keyCodes';
 import * as platform from '../common/platform';
 
@@ -138,18 +139,27 @@ let INVERSE_KEY_CODE_MAP: KeyCode[] = new Array(KeyCode.MAX_VALUE);
 
     define(226, KeyCode.OEM_102);
 
-	/**
-	 * https://lists.w3.org/Archives/Public/www-dom/2010JulSep/att-0182/keyCode-spec.html
-	 * If an Input Method Editor is processing key input and the event is keydown, return 229.
-	 */
+    /**
+     * https://lists.w3.org/Archives/Public/www-dom/2010JulSep/att-0182/keyCode-spec.html
+     * If an Input Method Editor is processing key input and the event is keydown, return 229.
+     */
     define(229, KeyCode.KEY_IN_COMPOSITION);
 
-    define(91, KeyCode.Meta);
-    if (platform.isMacintosh) {
-        // the two meta keys in the Mac have different key codes (91 and 93)
-        define(93, KeyCode.Meta);
-    } else {
-        define(92, KeyCode.Meta);
+    if (browser.isFirefox) {
+        define(59, KeyCode.US_SEMICOLON);
+        define(107, KeyCode.US_EQUAL);
+        define(109, KeyCode.US_MINUS);
+        if (platform.isMacintosh) {
+            define(224, KeyCode.Meta);
+        }
+    } else if (browser.isWebKit) {
+        define(91, KeyCode.Meta);
+        if (platform.isMacintosh) {
+            // the two meta keys in the Mac have different key codes (91 and 93)
+            define(93, KeyCode.Meta);
+        } else {
+            define(92, KeyCode.Meta);
+        }
     }
 })();
 
@@ -167,6 +177,9 @@ export function getCodeForKeyCode(keyCode: KeyCode): number {
 }
 
 export interface IKeyboardEvent {
+
+    readonly _standardKeyboardEventBrand: true;
+
     readonly browserEvent: KeyboardEvent;
     readonly target: HTMLElement;
 
@@ -177,9 +190,9 @@ export interface IKeyboardEvent {
     readonly keyCode: KeyCode;
     readonly code: string;
 
-	/**
-	 * @internal
-	 */
+    /**
+     * @internal
+     */
     toKeybinding(): SimpleKeybinding;
     equals(keybinding: number): boolean;
 
@@ -193,6 +206,8 @@ const shiftKeyMod = KeyMod.Shift;
 const metaKeyMod = (platform.isMacintosh ? KeyMod.CtrlCmd : KeyMod.WinCtrl);
 
 export class StandardKeyboardEvent implements IKeyboardEvent {
+
+    readonly _standardKeyboardEventBrand = true;
 
     public readonly browserEvent: KeyboardEvent;
     public readonly target: HTMLElement;

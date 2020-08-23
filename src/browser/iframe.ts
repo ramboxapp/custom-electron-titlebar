@@ -7,13 +7,13 @@
  * Represents a window in a possible chain of iframes
  */
 export interface IWindowChainElement {
-	/**
-	 * The window object for it
-	 */
+    /**
+     * The window object for it
+     */
     window: Window;
-	/**
-	 * The iframe element inside the window.parent corresponding to window
-	 */
+    /**
+     * The iframe element inside the window.parent corresponding to window
+     */
     iframeElement: HTMLIFrameElement | null;
 }
 
@@ -55,11 +55,11 @@ function findIframeElementInParentWindow(parentWindow: Window, childWindow: Wind
 
 export class IframeUtils {
 
-	/**
-	 * Returns a chain of embedded windows with the same origin (which can be accessed programmatically).
-	 * Having a chain of length 1 might mean that the current execution environment is running outside of an iframe or inside an iframe embedded in a window with a different origin.
-	 * To distinguish if at one point the current execution environment is running inside a window with a different origin, see hasDifferentOriginAncestor()
-	 */
+    /**
+     * Returns a chain of embedded windows with the same origin (which can be accessed programmatically).
+     * Having a chain of length 1 might mean that the current execution environment is running outside of an iframe or inside an iframe embedded in a window with a different origin.
+     * To distinguish if at one point the current execution environment is running inside a window with a different origin, see hasDifferentOriginAncestor()
+     */
     public static getSameOriginWindowChain(): IWindowChainElement[] {
         if (!sameOriginWindowChainCache) {
             sameOriginWindowChainCache = [];
@@ -84,10 +84,10 @@ export class IframeUtils {
         return sameOriginWindowChainCache.slice(0);
     }
 
-	/**
-	 * Returns true if the current execution environment is chained in a list of iframes which at one point ends in a window with a different origin.
-	 * Returns false if the current execution environment is not running inside an iframe or if the entire chain of iframes have the same origin.
-	 */
+    /**
+     * Returns true if the current execution environment is chained in a list of iframes which at one point ends in a window with a different origin.
+     * Returns false if the current execution environment is not running inside an iframe or if the entire chain of iframes have the same origin.
+     */
     public static hasDifferentOriginAncestor(): boolean {
         if (!sameOriginWindowChainCache) {
             this.getSameOriginWindowChain();
@@ -95,10 +95,10 @@ export class IframeUtils {
         return hasDifferentOriginAncestorFlag;
     }
 
-	/**
-	 * Returns the position of `childWindow` relative to `ancestorWindow`
-	 */
-    public static getPositionOfChildWindowRelativeToAncestorWindow(childWindow: Window, ancestorWindow: any) {
+    /**
+     * Returns the position of `childWindow` relative to `ancestorWindow`
+     */
+    public static getPositionOfChildWindowRelativeToAncestorWindow(childWindow: Window, ancestorWindow: Window | null) {
 
         if (!ancestorWindow || childWindow === ancestorWindow) {
             return {

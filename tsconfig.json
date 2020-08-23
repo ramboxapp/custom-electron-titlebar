@@ -5,7 +5,9 @@
     "target": "es2019",
     "declaration": true,
     "outDir": "./lib",
+    "moduleResolution": "node",
     "strict": true,
+    "noImplicitAny": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true

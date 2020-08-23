@@ -21,7 +21,7 @@ import {
     removeNode,
     EventHelper,
     EventLike
-} from "../common/dom";
+} from "../browser/dom";
 import {KeyCode, KeyCodeUtils, KeyMod} from "../common/keyCodes";
 import {isLinux} from "../common/platform";
 import {StandardKeyboardEvent} from "../browser/keyboardEvent";

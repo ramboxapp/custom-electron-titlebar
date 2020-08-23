@@ -21,7 +21,7 @@ import {
     addDisposableListener,
     prepend,
     removeNode
-} from './common/dom';
+} from './browser/dom';
 import {Menubar, MenubarOptions} from './menubar';
 import {BrowserWindow} from 'electron';
 import {Theme, Themebar} from './themebar';
@@ -98,6 +98,17 @@ export interface TitlebarOptions extends MenubarOptions {
     overflow: "auto" | "hidden" | "visible";
 }
 
+const TitlebarEventType = {
+    ...EventType,
+
+    // Window
+    MINIMIZE: 'minimize',
+    MAXIMIZE: 'maximize',
+    UNMAXIMIZE: 'unmaximize',
+    ENTER_FULLSCREEN: 'enter-full-screen',
+    LEAVE_FULLSCREEN: 'leave-full-screen',
+}
+
 const defaultOptions: TitlebarOptions = {
     backgroundColor: Color.fromHex('#444444'),
     iconsTheme: Themebar.win,
@@ -160,12 +171,12 @@ export class Titlebar extends Themebar {
     private registerListeners() {
         this.events = {};
 
-        this.events[EventType.FOCUS] = () => this.onDidChangeWindowFocus(true);
-        this.events[EventType.BLUR] = () => this.onDidChangeWindowFocus(false);
-        this.events[EventType.MAXIMIZE] = () => this.onDidChangeMaximized(true);
-        this.events[EventType.UNMAXIMIZE] = () => this.onDidChangeMaximized(false);
-        this.events[EventType.ENTER_FULLSCREEN] = () => this.onDidChangeFullscreen(true);
-        this.events[EventType.LEAVE_FULLSCREEN] = () => this.onDidChangeFullscreen(false);
+        this.events[TitlebarEventType.FOCUS] = () => this.onDidChangeWindowFocus(true);
+        this.events[TitlebarEventType.BLUR] = () => this.onDidChangeWindowFocus(false);
+        this.events[TitlebarEventType.MAXIMIZE] = () => this.onDidChangeMaximized(true);
+        this.events[TitlebarEventType.UNMAXIMIZE] = () => this.onDidChangeMaximized(false);
+        this.events[TitlebarEventType.ENTER_FULLSCREEN] = () => this.onDidChangeFullscreen(true);
+        this.events[TitlebarEventType.LEAVE_FULLSCREEN] = () => this.onDidChangeFullscreen(false);
 
         for (const k in this.events) {
             this.currentWindow.on(k as any, this.events[k]);
@@ -387,7 +398,7 @@ export class Titlebar extends Themebar {
     }
 
     private onDidChangeFullscreen(fullscreen: boolean) {
-        if (!isMacintosh) {
+        if (!isMacintosh && this.appIcon && this.title && this.windowControls) {
             if (fullscreen) {
                 hide(this.appIcon, this.title, this.windowControls);
             } else {
