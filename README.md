@@ -72,13 +72,48 @@ electron 10+. Further, we assume that the :
 var mainWindow = new BrowserWindow({
       width: 1000,
       height: 600,
-      titleBarStyle: "hidden", // add this line
+      frame: false,
       webPreferences: {
           nodeIntegration: true,
           enableRemoteModule: true,
           preload: path.join(__dirname, 'preload.js'),
       }
 });
+```
+
+#### MacOS / Windows
+
+Custom Electron Titlebar is not really useful on MacOS platforms
+where it only tries to simulate the normal MacOS window
+design to some extent and it is recommended to exclude
+the custom titlebar when your application is run on 
+a MacOS platform.
+
+To switch it of for MacOS platforms, you should configure
+your browser window like so
+
+```js
+var mainWindow = new BrowserWindow({
+      // ...
+      frame: process.platform === 'darwin',
+      // ...
+});
+```
+
+and similiar on the preload:
+
+```js
+
+window.addEventListener('DOMContentLoaded', () => {
+    if (process.platform !== 'darwin') {
+        const customTitlebar = require('custom-electron-titlebar');
+        new customTitlebar.Titlebar({
+            backgroundColor: customTitlebar.Color.fromHex('#ECECEC')
+        });
+    }
+
+    // ...
+})
 ```
 
 ## Options

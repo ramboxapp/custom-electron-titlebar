@@ -156,6 +156,14 @@ export class Titlebar extends Themebar {
 
         this._options = {...defaultOptions, ...options};
 
+        if (!options?.iconsTheme) {
+            if (isWindows || isLinux) {
+                this._options.iconsTheme = Themebar.win;
+            } else {
+                this._options.iconsTheme = Themebar.mac;
+            }
+        }
+
         this.registerListeners();
         this.createTitlebar();
         this.updateStyles();
@@ -268,11 +276,8 @@ export class Titlebar extends Themebar {
             this.windowControls = append(this.titlebar, $('div.window-controls-container'));
 
             // Minimize
-            let $windowIconBg = $('div.window-icon-bg');
-            let $windowIcon = $('div.window-icon');
-
-            const minimizeIconContainer = append(this.windowControls, $windowIconBg);
-            const minimizeIcon = append(minimizeIconContainer, $windowIcon);
+            const minimizeIconContainer = append(this.windowControls, $('div.window-icon-bg'));
+            const minimizeIcon = append(minimizeIconContainer, $('div.window-icon'));
             addClass(minimizeIcon, 'window-minimize');
 
             if (!this._options.minimizable) {
@@ -284,8 +289,8 @@ export class Titlebar extends Themebar {
             }
 
             // Restore
-            const restoreIconContainer = append(this.windowControls, $windowIconBg);
-            this.maxRestoreControl = append(restoreIconContainer, $windowIcon);
+            const restoreIconContainer = append(this.windowControls, $('div.window-icon-bg'));
+            this.maxRestoreControl = append(restoreIconContainer, $('div.window-icon'));
             addClass(this.maxRestoreControl, 'window-max-restore');
 
             if (!this._options.maximizable) {
@@ -303,9 +308,9 @@ export class Titlebar extends Themebar {
             }
 
             // Close
-            const closeIconContainer = append(this.windowControls, $windowIconBg);
+            const closeIconContainer = append(this.windowControls, $('div.window-icon-bg'));
             addClass(closeIconContainer, 'window-close-bg');
-            const closeIcon = append(closeIconContainer, $windowIcon);
+            const closeIcon = append(closeIconContainer, $('div.window-icon'));
             addClass(closeIcon, 'window-close');
 
             if (!this._options.closeable) {
@@ -316,6 +321,68 @@ export class Titlebar extends Themebar {
                         this.currentWindow.hide()
                     } else {
                         this.currentWindow.close()
+                    }
+                }));
+            }
+
+            // Resizer
+            this.resizer = {
+                top: append(this.titlebar, $('div.resizer.top')),
+                left: append(this.titlebar, $('div.resizer.left'))
+            }
+
+            this.onDidChangeMaximized(this.currentWindow.isMaximized());
+        } else {
+            this.windowControls = prepend(this.titlebar, $('div.window-controls-container'));
+
+            // Close
+            const closeIconContainer = append(this.windowControls, $('div.window-icon-bg'));
+            const closeIcon = append(closeIconContainer, $('div.window-icon'));
+            closeIconContainer.classList.add('window-close-bg')
+            closeIcon.classList.add('window-close');
+
+            if (!this._options.closeable) {
+                closeIconContainer.classList.add('inactive');
+            } else {
+                this._register(addDisposableListener(closeIcon, EventType.CLICK, () => {
+                    if (this._options.hideWhenClickingClose) {
+                        this.currentWindow.hide()
+                    } else {
+                        this.currentWindow.close()
+                    }
+                }));
+            }
+
+            // Minimize
+            const minimizeIconContainer = append(this.windowControls, $('div.window-icon-bg'));
+            const minimizeIcon = append(minimizeIconContainer, $('div.window-icon'));
+            minimizeIconContainer.classList.add('window-minimize-bg');
+            minimizeIcon.classList.add('window-minimize');
+
+            if (!this._options.minimizable) {
+                minimizeIconContainer.classList.add('inactive');
+            } else {
+                this._register(addDisposableListener(minimizeIcon, EventType.CLICK, () => {
+                    this.currentWindow.minimize();
+                }));
+            }
+
+            // Restore
+            const restoreIconContainer = append(this.windowControls, $('div.window-icon-bg'));
+            this.maxRestoreControl = append(restoreIconContainer, $('div.window-icon'));
+            restoreIconContainer.classList.add('window-restore-bg');
+            this.maxRestoreControl.classList.add('window-max-restore');
+
+            if (!this._options.maximizable) {
+                restoreIconContainer.classList.add('inactive');
+            } else {
+                this._register(addDisposableListener(this.maxRestoreControl, EventType.CLICK, () => {
+                    if (this.currentWindow.isMaximized()) {
+                        this.currentWindow.unmaximize();
+                        this.onDidChangeMaximized(false);
+                    } else {
+                        this.currentWindow.maximize();
+                        this.onDidChangeMaximized(true);
                     }
                 }));
             }
@@ -593,6 +660,9 @@ export class Titlebar extends Themebar {
         if (side === 'center') {
             this.title.style.marginRight = 'auto';
             this.title.style.marginLeft = 'auto';
+            if (isMacintosh) {
+                this.title.style.paddingRight = '60px';
+            }
         }
     }
 

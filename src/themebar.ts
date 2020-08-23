@@ -463,12 +463,16 @@ export class Themebar extends ThemingRegistry {
     static get mac(): Theme {
         return ((collector: CssStyle) => {
             collector.addRule(`
+            .titlebar.cet-mac {
+                padding: 0;
+            }
+            
             .titlebar .window-controls-container .window-icon-bg {
                 display: inline-block;
                 -webkit-app-region: no-drag;
-                height: 15px;
-                width: 15px;
-                margin: 7.5px 6px;
+                height: 12px;
+                width: 12px;
+                margin: 7.5px 4px;
                 border-radius: 50%;
                 overflow: hidden;
             }
@@ -476,11 +480,7 @@ export class Themebar extends ThemingRegistry {
             .titlebar .window-controls-container .window-icon-bg.inactive {
                 background-color: #cdcdcd;
             }
-            
-            .titlebar .window-controls-container .window-icon-bg:nth-child(2n) {
-                order: -1;
-            }
-            
+                        
             .titlebar .window-controls-container .window-icon-bg:not(.inactive) .window-icon {
                 height: 100%;
                 width: 100%;
@@ -493,19 +493,19 @@ export class Themebar extends ThemingRegistry {
                 background-color: rgba(0, 0, 0, 0.4);
             }
             
-            .titlebar .window-controls-container .window-icon-bg:not(.inactive):first-child {
+            .titlebar .window-controls-container .window-icon-bg:not(.inactive).window-minimize-bg {
                 background-color: #febc28;
             }
             
-            .titlebar .window-controls-container .window-icon-bg:not(.inactive):first-child:hover {
+            .titlebar .window-controls-container .window-icon-bg:not(.inactive).window-minimize-bg:hover {
                 background-color: #feb30a;
             }
             
-            .titlebar .window-controls-container .window-icon-bg:not(.inactive):nth-child(2n) {
+            .titlebar .window-controls-container .window-icon-bg:not(.inactive).window-restore-bg {
                 background-color: #01cc4e;
             }
             
-            .titlebar .window-controls-container .window-icon-bg:not(.inactive):nth-child(2n):hover {
+            .titlebar .window-controls-container .window-icon-bg:not(.inactive).window-restore-bg:hover {
                 background-color: #01ae42;
             }
             

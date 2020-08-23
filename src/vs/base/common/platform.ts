@@ -60,6 +60,7 @@ if (typeof navigator === 'object' && !isElectronRenderer) {
 	_locale = navigator.language;
 	_language = _locale;
 } else if (typeof process === 'object') {
+	// _isWindows = (process.platform === 'darwin');  // uncomment this and comment the next 2 lines to test it on macos
 	_isWindows = (process.platform === 'win32');
 	_isMacintosh = (process.platform === 'darwin');
 	_isLinux = (process.platform === 'linux');
