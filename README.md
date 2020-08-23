@@ -1,8 +1,10 @@
 # Custom Electron Titlebar
 
 This project is a typescript library for electron that allows you to configure a fully customizable title bar.
+The titlebar is based on the solution from Visual Studio Code and uses
+some of their code.
 
-### **It is a library for electron 10+, it cannot be used on a basic website or with previous versions of electron.**
+**This library is for electron 10+, it cannot be used on a basic website or with previous versions of electron.**
 
 [![LICENSE](https://img.shields.io/github/license/AlexTorresSk/custom-electron-titlebar.svg)](https://github.com/AlexTorresSk/custom-electron-titlebar/blob/master/LICENSE)
 
@@ -23,23 +25,31 @@ or use example folder to init basic electron project with this titlebar.
 ## Usage
 
 #### Step 1
-In your **renderer** file or in an **HTML script tag** add:
+In your **preload** file add:
 
 ```js
 const customTitlebar = require('custom-electron-titlebar');
 
-new customTitlebar.Titlebar({
-	backgroundColor: customTitlebar.Color.fromHex('#444')
-});
+window.addEventListener('DOMContentLoaded', () => {
+    new customTitlebar.Titlebar({
+        backgroundColor: customTitlebar.Color.fromHex('#ECECEC')
+    });
+
+    // ...
+}
 ```
 
-> if you are using _typescript_
+or, if you are using _typescript_
 ```ts
 import { Titlebar, Color } from 'custom-electron-titlebar'
 
-new Titlebar({
-	backgroundColor: Color.fromHex('#ECECEC')
-});
+window.addEventListener('DOMContentLoaded', () => {
+    new Titlebar({
+        backgroundColor: Color.fromHex('#ECECEC')
+    });
+    
+    // ...
+}
 ```
 
 The parameter `backgroundColor: Color` is required, this should be `Color` type.
@@ -47,11 +57,27 @@ The parameter `backgroundColor: Color` is required, this should be `Color` type.
 
 #### Step 2
 Update the code that launches browser window
+
+Add the following line to your `main.js` file:
+
+```js
+require('@electron/remote/main').initialize()
+```
+
+Then configure the browser window like this. We need
+nodeIntegration and we need to enable the remote module for
+electron 10+. Further, we assume that the :
+
 ```js
 var mainWindow = new BrowserWindow({
       width: 1000,
       height: 600,
       titleBarStyle: "hidden", // add this line
+      webPreferences: {
+          nodeIntegration: true,
+          enableRemoteModule: true,
+          preload: path.join(__dirname, 'preload.js'),
+      }
 });
 ```
 
@@ -231,3 +257,5 @@ You can also:<br>
 ## License
 
 This fork of the archived [custom-electron-titlebar project by AlexTorresSk](https://github.com/AlexTorresSk/custom-electron-titlebar) is under the [MIT](https://github.com/Treverix/custom-electron-titlebar/blob/master/LICENSE) license.
+
+It uses Code from the [Visual Studio Code Project](https://github.com/microsoft/vscode) which is also under the [MIT](https://github.com/Treverix/custom-electron-titlebar/blob/master/LICENSE) license.
