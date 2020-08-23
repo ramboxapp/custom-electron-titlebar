@@ -8,7 +8,7 @@
  *  Licensed under the MIT License. See License in the project root for license information.
  *-------------------------------------------------------------------------------------------------------*/
 
-import {Color} from "..";
+import {Color} from "./index";
 import {
     addClass,
     addDisposableListener,
@@ -18,17 +18,16 @@ import {
     append,
     addClasses,
     $,
-    removeNode,
     EventHelper,
     EventLike
-} from "../browser/dom";
-import {KeyCode, KeyCodeUtils, KeyMod} from "../common/keyCodes";
-import {isLinux} from "../common/platform";
-import {StandardKeyboardEvent} from "../browser/keyboardEvent";
+} from "vs/base/browser/dom";
+import {KeyCode, KeyCodeUtils, KeyMod} from "vs/base/common/keyCodes";
+import {isLinux} from "vs/base/common/platform";
+import {StandardKeyboardEvent} from "vs/base/browser/keyboardEvent";
 import {IMenuItem, CETMenuItem} from "./menuitem";
-import {Disposable, dispose, IDisposable} from "../common/lifecycle";
-import {Event, Emitter} from "../common/event";
-import {RunOnceScheduler} from "../common/async";
+import {Disposable, dispose, IDisposable} from "vs/base/common/lifecycle";
+import {Event, Emitter} from "vs/base/common/event";
+import {RunOnceScheduler} from "vs/base/common/async";
 import {MenuItem, Menu} from "electron";
 
 export const MENU_MNEMONIC_REGEX = /\(&([^\s&])\)|(^|[^&])&([^\s&])/;
@@ -428,7 +427,7 @@ export class CETMenu extends Disposable {
         dispose(this.items);
         this.items = [];
 
-        removeNode(this.getContainer());
+        this.getContainer().remove();
 
         super.dispose();
     }

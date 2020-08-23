@@ -8,8 +8,8 @@
  *  Licensed under the MIT License. See License in the project root for license information.
  *-------------------------------------------------------------------------------------------------------*/
 
-import {isMacintosh, isWindows, isLinux} from './common/platform';
-import {Color, RGBA} from './common/color';
+import {isMacintosh, isWindows, isLinux} from 'vs/base/common/platform';
+import {Color, RGBA} from 'vs/base/common/color';
 import {
     EventType,
     hide,
@@ -21,7 +21,7 @@ import {
     addDisposableListener,
     prepend,
     removeNode
-} from './browser/dom';
+} from 'vs/base/browser/dom';
 import {Menubar, MenubarOptions} from './menubar';
 import {BrowserWindow} from 'electron';
 import {Theme, Themebar} from './themebar';

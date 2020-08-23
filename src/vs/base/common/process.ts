@@ -3,22 +3,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { isWindows, isMacintosh, setImmediate, IProcessEnvironment } from './platform';
+import { isWindows, isMacintosh, setImmediate, IProcessEnvironment } from 'vs/base/common/platform';
 
 interface IProcess {
-    platform: string;
-    env: IProcessEnvironment;
+	platform: string;
+	env: IProcessEnvironment;
 
-    cwd(): string;
-    nextTick(callback: (...args: any[]) => void): void;
+	cwd(): string;
+	nextTick(callback: (...args: any[]) => void): void;
 }
 
 declare const process: IProcess;
 const safeProcess: IProcess = (typeof process === 'undefined') ? {
-    cwd(): string { return '/'; },
-    env: Object.create(null),
-    get platform(): string { return isWindows ? 'win32' : isMacintosh ? 'darwin' : 'linux'; },
-    nextTick(callback: (...args: any[]) => void): void { return setImmediate(callback); }
+	cwd(): string { return '/'; },
+	env: Object.create(null),
+	get platform(): string { return isWindows ? 'win32' : isMacintosh ? 'darwin' : 'linux'; },
+	nextTick(callback: (...args: any[]) => void): void { return setImmediate(callback); }
 } : process;
 
 export const cwd = safeProcess.cwd;

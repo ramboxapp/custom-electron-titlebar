@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { CharCode } from './charCode';
+import { CharCode } from 'vs/base/common/charCode';
 
 function roundFloat(number: number, decimalPoints: number): number {
 	const decimal = Math.pow(10, decimalPoints);

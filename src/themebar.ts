@@ -6,7 +6,7 @@
  *  You can check your respective license and the original file in https://github.com/Microsoft/vscode/
  *-------------------------------------------------------------------------------------------------------*/
 
-import { toDisposable, IDisposable, Disposable } from "./common/lifecycle";
+import {toDisposable, IDisposable, Disposable} from "vs/base/common/lifecycle";
 
 class ThemingRegistry extends Disposable {
     private readonly theming: Theme[] = [];

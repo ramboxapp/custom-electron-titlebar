@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { once } from './functional';
-import { Iterable } from './iterator';
+import { once } from 'vs/base/common/functional';
+import { Iterable } from 'vs/base/common/iterator';
 
 /**
  * Enables logging of potentially leaked disposables.

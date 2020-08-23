@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // ...
-}
+})
 ```
 
 or, if you are using _typescript_
@@ -49,7 +49,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     
     // ...
-}
+})
 ```
 
 The parameter `backgroundColor: Color` is required, this should be `Color` type.
@@ -251,8 +251,13 @@ of the remote module [@electron/remote](https://www.npmjs.com/package/@electron/
 Many thanks to all the people who supported Alex' project through issues and pull request.
 If you want to contribute with this electron 10 fork, all the issues and pull request are welcome.
 
-You can also:<br>
-<a href="https://www.buymeacoffee.com/Treverix" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+You can also buy us a coffee:
+
+| Andreas (Treverix) | Alex |
+|--------------------|------|
+|<a href="https://www.buymeacoffee.com/Treverix" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a> | <a href="https://www.buymeacoffee.com/bjkGN4g" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+ |
+
 
 ## License
 
