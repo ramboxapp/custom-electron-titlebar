@@ -10,6 +10,7 @@
       ]
     },
     "module": "commonjs",
+    "noEmit": true,
     "target": "es2019",
     "declaration": true,
     "outDir": "./lib",
@@ -22,7 +23,7 @@
     "experimentalDecorators": true
   },
   "include": [
-    "src"
+    "src/**/*"
   ],
   "exclude": [
     "./node_modules",
