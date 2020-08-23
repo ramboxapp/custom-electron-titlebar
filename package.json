@@ -1,6 +1,6 @@
 {
   "name": "@treverix/custom-electron-titlebar",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Custom Electron Titlebar is a library for electron 10+ that allows you to configure a fully customizable title bar.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
