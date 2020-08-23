@@ -259,7 +259,7 @@ export namespace Event {
         const flush = (listener: (e: T) => any, thisArgs?: any) => buffer.forEach(e => listener.call(thisArgs, e));
 
         const emitter = new Emitter<T>({
-            onListenerDidAdd(emitter, listener: (e: T) => any, thisArgs?: any) {
+            onListenerDidAdd(emitter: Emitter<T>, listener: (e: T) => any, thisArgs?: any) {
                 if (nextTick) {
                     setTimeout(() => flush(listener, thisArgs));
                 } else {
@@ -469,7 +469,7 @@ export class Emitter<T> {
     private readonly _leakageMon?: LeakageMonitor;
     private _disposed: boolean = false;
     private _event?: Event<T>;
-    private _deliveryQueue: [Listener<T>, T][];
+    private _deliveryQueue: [Listener<T>, T][] = [];
     protected _listeners?: LinkedList<Listener<T>>;
 
     constructor(options?: EmitterOptions) {
@@ -593,7 +593,7 @@ export interface IWaitUntil {
 
 export class AsyncEmitter<T extends IWaitUntil> extends Emitter<T> {
 
-    private _asyncDeliveryQueue: [Listener<T>, T, Promise<any>[]][];
+    private _asyncDeliveryQueue: [Listener<T>, T, Promise<any>[]][] = [];
 
     async fireAsync(eventFn: (thenables: Promise<any>[], listener: Function) => T): Promise<void> {
         if (!this._listeners) {

@@ -27,18 +27,18 @@ export interface IMenuItem {
 export class CETMenuItem extends Disposable implements IMenuItem {
 
 	protected options: IMenuOptions;
-	protected menuStyle: IMenuStyle;
-	protected container: HTMLElement;
-	protected itemElement: HTMLElement;
+	protected menuStyle: IMenuStyle | undefined;
+	protected container: HTMLElement | undefined;
+	protected itemElement: HTMLElement | undefined;
 
 	private item: MenuItem;
-	private labelElement: HTMLElement;
-	private checkElement: HTMLElement;
-	private iconElement: HTMLElement;
-	private mnemonic: KeyCode;
+	private labelElement: HTMLElement | undefined;
+	private checkElement: HTMLElement | undefined;
+	private iconElement: HTMLElement | undefined;
+	private mnemonic: KeyCode | undefined;
 	private closeSubMenu: () => void;
 
-	private event: Electron.Event;
+	private event: Electron.Event | undefined;
 	private currentWindow: BrowserWindow;
 
 	constructor(item: MenuItem, options: IMenuOptions = {}, closeSubMenu = () => { }) {
@@ -216,7 +216,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 			accelerator = this.item.accelerator;
 		}
 
-		if (accelerator !== null) {
+		if (this.itemElement && accelerator !== null) {
 			append(this.itemElement, $('span.keybinding')).textContent = parseAccelerator(accelerator);
 		}
 	}
@@ -276,7 +276,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 			icon = this.item.icon;
 		}
 
-		if (icon) {
+		if (this.iconElement && icon) {
 			const iconE = append(this.iconElement, $('img'));
 			iconE.setAttribute('src', icon.toString());
 		}
@@ -295,12 +295,14 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 			}
 		}
 
-		if (title) {
+		if (this.itemElement && title) {
 			this.itemElement.title = title;
 		}
 	}
 
-	updateEnabled() {
+	updateEnabled():void {
+		if (!this.container) return;
+
 		if (this.item.enabled && this.item.type !== 'separator') {
 			removeClass(this.container, 'disabled');
 			this.container.tabIndex = 0;
@@ -309,13 +311,15 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 		}
 	}
 
-	updateVisibility() {
-		if (this.item.visible === false && this.itemElement) {
+	updateVisibility():void {
+		if (!this.item.visible && this.itemElement) {
 			this.itemElement.remove();
 		}
 	}
 
-	updateChecked() {
+	updateChecked(): void {
+		if (!this.itemElement) return
+
 		if (this.item.checked) {
 			addClass(this.itemElement, 'checked');
 			this.itemElement.setAttribute('role', 'menuitemcheckbox');
@@ -336,7 +340,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 		super.dispose();
 	}
 
-	getMnemonic(): KeyCode {
+	getMnemonic(): KeyCode | undefined {
 		return this.mnemonic;
 	}
 
@@ -349,9 +353,20 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 		const fgColor = isSelected && this.menuStyle.selectionForegroundColor ? this.menuStyle.selectionForegroundColor : this.menuStyle.foregroundColor;
 		const bgColor = isSelected && this.menuStyle.selectionBackgroundColor ? this.menuStyle.selectionBackgroundColor : this.menuStyle.backgroundColor;
 
-		this.checkElement.style.backgroundColor = fgColor ? fgColor.toString() : null;
-		this.itemElement.style.color = fgColor ? fgColor.toString() : null;
-		this.itemElement.style.backgroundColor = bgColor ? bgColor.toString() : null;
+		if (!this.checkElement || !this.itemElement) return;
+		if (fgColor) {
+			this.checkElement.style.backgroundColor = fgColor.toString();
+			this.itemElement.style.color = fgColor.toString();
+		} else {
+			this.checkElement.style.removeProperty('background-color');
+			this.itemElement.style.removeProperty('color');
+		}
+
+		if (bgColor) {
+			this.itemElement.style.backgroundColor = bgColor.toString();
+		} else {
+			this.itemElement.style.removeProperty('background-color');
+		}
 	}
 
 	style(style: IMenuStyle): void {

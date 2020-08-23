@@ -28,17 +28,17 @@ export interface MenubarOptions {
 	 * You can use `Menu` or not add this option and the menu created in the main process will be taken.
 	 * The default menu is taken from the [`Menu.getApplicationMenu()`](https://electronjs.org/docs/api/menu#menugetapplicationmenu)
 	 */
-	menu?: Menu | null;
+	menu: Menu | null;
 	/**
 	 * The position of menubar on titlebar.
 	 * *The default is left*
 	 */
-	menuPosition?: "left" | "bottom";
+	menuPosition: "left" | "bottom";
 	/**
 	 * Enable the mnemonics on menubar and menu items
 	 * *The default is true*
 	 */
-	enableMnemonics?: boolean;
+	enableMnemonics: boolean;
 	/**
 	 * The background color when the mouse is over the item.
 	 */
@@ -49,7 +49,7 @@ interface CustomItem {
 	menuItem: MenuItem;
 	buttonElement: HTMLElement;
 	titleElement: HTMLElement;
-	submenu: Menu;
+	submenu?: Menu;
 }
 
 enum MenubarState {
@@ -61,7 +61,7 @@ enum MenubarState {
 
 export class Menubar extends Disposable {
 
-	private menuItems: CustomItem[];
+	private readonly menuItems: CustomItem[];
 
 	private focusedMenu: {
 		index: number;
@@ -72,10 +72,10 @@ export class Menubar extends Disposable {
 	private focusToReturn: HTMLElement | undefined;
 
 	// Input-related
-	private _mnemonicsInUse: boolean;
-	private openedViaKeyboard: boolean;
-	private awaitingAltRelease: boolean;
-	private ignoreNextMouseUp: boolean;
+	private _mnemonicsInUse: boolean = false;
+	private openedViaKeyboard: boolean = false;
+	private awaitingAltRelease: boolean = false;
+	private ignoreNextMouseUp: boolean = false;
 	private mnemonics: Map<KeyCode, number>;
 
 	private _focusState: MenubarState;
@@ -83,10 +83,10 @@ export class Menubar extends Disposable {
 	private _onVisibilityChange: Emitter<boolean>;
 	private _onFocusStateChange: Emitter<boolean>;
 
-	private menuStyle: IMenuStyle;
-	private closeSubMenu: () => void;
+	private menuStyle: IMenuStyle | undefined;
+	private readonly closeSubMenu: () => void;
 
-	constructor(private container: HTMLElement, private options?: MenubarOptions, closeSubMenu = () => { }) {
+	constructor(private container: HTMLElement, private options: MenubarOptions, closeSubMenu = () => { }) {
 		super();
 
 		this.menuItems = [];
@@ -110,7 +110,7 @@ export class Menubar extends Disposable {
 				this.focusNext();
 			} else if (event.equals(KeyCode.Escape) && this.isFocused && !this.isOpen) {
 				this.setUnfocusedState();
-			} else if (!this.isOpen && !event.ctrlKey && this.options.enableMnemonics && this.mnemonicsInUse && this.mnemonics.has(key)) {
+			} else if (!this.isOpen && !event.ctrlKey && this.options?.enableMnemonics && this.mnemonicsInUse && this.mnemonics.has(key)) {
 				const menuIndex = this.mnemonics.get(key)!;
 				this.onMenuTriggered(menuIndex, false);
 			} else {
@@ -152,7 +152,7 @@ export class Menubar extends Disposable {
 		}));
 
 		this._register(addDisposableListener(window, EventType.KEY_DOWN, (e: KeyboardEvent) => {
-			if (!this.options.enableMnemonics || !e.altKey || e.ctrlKey || e.defaultPrevented) {
+			if (!this.options?.enableMnemonics || !e.altKey || e.ctrlKey || e.defaultPrevented) {
 				return;
 			}
 
@@ -181,7 +181,7 @@ export class Menubar extends Disposable {
 	}
 
 	setupMenubar(): void {
-		const topLevelMenus = this.options.menu.items;
+		const topLevelMenus = this.options.menu?.items || [];
 
 		this._register(this.onFocusStateChange(e => this._onFocusStateChange.fire(e)));
 		this._register(this.onVisibilityChange(e => this._onVisibilityChange.fire(e)));
@@ -276,11 +276,10 @@ export class Menubar extends Disposable {
 	}
 
 	private onClick(menuIndex: number) {
-		let electronEvent: Electron.Event;
 		const item = this.menuItems[menuIndex].menuItem;
 
 		if (item.click) {
-			item.click(item as MenuItem, remote.getCurrentWindow(), electronEvent);
+			item.click(item as MenuItem, remote.getCurrentWindow());
 		}
 	}
 
@@ -528,7 +527,11 @@ export class Menubar extends Disposable {
 				if (menuBarMenu.titleElement.children.length) {
 					let child = menuBarMenu.titleElement.children.item(0) as HTMLElement;
 					if (child) {
-						child.style.textDecoration = visible ? 'underline' : null;
+						if (visible) {
+							child.style.textDecoration = 'underline';
+						} else {
+							child.style.removeProperty('text-decoration');
+						}
 					}
 				}
 			});
@@ -647,12 +650,13 @@ export class Menubar extends Disposable {
 
 		let menuOptions: IMenuOptions = {
 			enableMnemonics: this.mnemonicsInUse && this.options.enableMnemonics,
-			ariaLabel: customMenu.buttonElement.attributes['aria-label'].value
+			//ariaLabel: customMenu.buttonElement.attributes['aria-label'].value
+			ariaLabel: customMenu.buttonElement.getAttribute('aria-label') || undefined
 		};
 
 		let menuWidget = new CETMenu(menuHolder, menuOptions, this.closeSubMenu);
-		menuWidget.createMenu(customMenu.submenu.items);
-		menuWidget.style(this.menuStyle);
+		menuWidget.createMenu(customMenu.submenu?.items || []);
+		menuWidget.style(this.menuStyle || {});
 
 		this._register(menuWidget.onDidCancel(() => {
 			this.focusState = MenubarState.FOCUSED;
@@ -683,7 +687,7 @@ interface IModifierKeyStatus {
 class ModifierKeyEmitter extends Emitter<IModifierKeyStatus> {
 
 	private _subscriptions: IDisposable[] = [];
-	private _keyStatus: IModifierKeyStatus;
+	private readonly _keyStatus: IModifierKeyStatus;
 	private static instance: ModifierKeyEmitter;
 
 	private constructor() {

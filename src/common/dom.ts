@@ -47,8 +47,8 @@ interface IDomClassList {
 
 const _manualClassList = new class implements IDomClassList {
 
-	private _lastStart: number;
-	private _lastEnd: number;
+	private _lastStart: number = 0;
+	private _lastEnd: number = 0;
 
 	private _findClassName(node: HTMLElement, className: string): void {
 
@@ -424,7 +424,7 @@ export interface DOMEvent {
 }
 
 const MINIMUM_TIME_MS = 16;
-const DEFAULT_EVENT_MERGER: IEventMerger<DOMEvent, DOMEvent> = function (lastEvent: DOMEvent, currentEvent: DOMEvent) {
+const DEFAULT_EVENT_MERGER: IEventMerger<DOMEvent, DOMEvent> = function (lastEvent: DOMEvent | null, currentEvent: DOMEvent) {
 	return currentEvent;
 };
 
@@ -1061,7 +1061,7 @@ export function join(nodes: Node[], separator: Node | string): Node[] {
 	return result;
 }
 
-export function show(...elements: HTMLElement[]): void {
+export function show(...elements: (HTMLElement | undefined)[]): void {
 	for (let element of elements) {
 		if (element) {
 			element.style.display = '';
@@ -1070,7 +1070,7 @@ export function show(...elements: HTMLElement[]): void {
 	}
 }
 
-export function hide(...elements: HTMLElement[]): void {
+export function hide(...elements: (HTMLElement | undefined)[]): void {
 	for (let element of elements) {
 		if (element) {
 			element.style.display = 'none';

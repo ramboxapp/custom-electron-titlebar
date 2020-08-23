@@ -13,7 +13,7 @@ export interface IDomEvent {
 }
 
 export const domEvent: IDomEvent = (element: EventHandler, type: string, useCapture?: boolean) => {
-    const fn = e => emitter.fire(e);
+    const fn = (e: any) => emitter.fire(e);
     const emitter = new Emitter<any>({
         onFirstListenerAdd: () => {
             element.addEventListener(type, fn, useCapture);
@@ -27,8 +27,8 @@ export const domEvent: IDomEvent = (element: EventHandler, type: string, useCapt
 };
 
 export interface CancellableEvent {
-    preventDefault();
-    stopPropagation();
+    preventDefault(): void;
+    stopPropagation(): void;
 }
 
 export function stop<T extends CancellableEvent>(event: Event<T>): Event<T> {
