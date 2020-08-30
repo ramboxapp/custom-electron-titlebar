@@ -42,3 +42,4 @@ lib/
 dist/
 *.map
 package-lock.json
+NOTES.md

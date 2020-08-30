@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // it only tries to simulate what we get with the normal behavior anyway.
   if (process.platform !== 'darwin') {
     //const customTitlebar = require('custom-electron-titlebar');
-    const customTitlebar = require('../lib'); // Delete this line and uncomment top line
+    const customTitlebar = require('../dist'); // Delete this line and uncomment top line
     new customTitlebar.Titlebar({
       backgroundColor: customTitlebar.Color.fromHex('#2f3241'),
       icon: url.format(path.join(__dirname, '/images', '/icon.png')),
