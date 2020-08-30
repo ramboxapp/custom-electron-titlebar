@@ -61,7 +61,7 @@ Update the code that launches browser window
 Add the following line to your `main.js` file:
 
 ```js
-require('@electron/remote/main').initialize()
+require('@treverix/remote/main').initialize()
 ```
 
 Then configure the browser window like this. We need
@@ -279,7 +279,7 @@ Electron is deprecating the remote module. It is deactivated by default and
 will be removed with electron 12 in the near future. The great custom-electron-titlebar 
 by AlexTorresSk has been archived recently and is not maintained anymore. 
 This fork is a version for electron 10+ and uses the new userland implementation
-of the remote module [@electron/remote](https://www.npmjs.com/package/@electron/remote). 
+of the remote module [@treverix/remote](https://www.npmjs.com/package/@electron/remote). 
 
 ## Contributing
 

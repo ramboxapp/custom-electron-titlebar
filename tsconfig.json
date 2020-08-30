@@ -10,10 +10,10 @@
       ]
     },
     "module": "commonjs",
-    "noEmit": true,
-    "target": "es2019",
+    // "noEmit": true,
+    "target": "es2020",
     "declaration": true,
-    "outDir": "./lib",
+    "outDir": "./dist",
     "moduleResolution": "node",
     "strict": true,
     "noImplicitAny": true,

@@ -1,38 +1,18 @@
 {
-  "presets": [
-    [
-      "@babel/preset-typescript",
-      {
-        "allowNamespaces": true
-      }
-    ],
-    [
-      "@babel/preset-env",
-      {
-        "targets": {
-          "node": true
-        }
-      }
-    ]
-  ],
   "plugins": [
     [
       "module-resolver",
       {
         "root": [
-          "./src"
+          "./dist"
         ],
         "alias": {
-          "vs": "./src/vs"
+          "vs": "./dist/vs"
         },
         "extensions": [
-          ".js",
-          ".ts"
+          ".js"
         ]
       }
-    ],
-    "const-enum",
-    "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-proposal-object-rest-spread"
+    ]
   ]
 }

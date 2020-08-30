@@ -21,7 +21,7 @@ import {isMacintosh} from 'vs/base/common/platform';
 import {CETMenu, IMenuStyle} from "./menu";
 
 // we don't have typings yet for the module - so for a quick win, we require it in
-const remote = require("@electron/remote");
+const remote = require("@treverix/remote");
 
 export interface MenubarOptions {
     /**

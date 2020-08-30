@@ -27,7 +27,7 @@ import {BrowserWindow} from 'electron';
 import {Theme, Themebar} from './themebar';
 
 // we don't have typings yet for the module - so for a quick win, we require it in
-const remote = require("@electron/remote");
+const remote = require("@treverix/remote");
 
 const INACTIVE_FOREGROUND_DARK = Color.fromHex('#222222');
 const ACTIVE_FOREGROUND_DARK = Color.fromHex('#333333');
