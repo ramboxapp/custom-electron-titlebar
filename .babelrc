@@ -1,5 +1,6 @@
 {
   "plugins": [
+    "rewire",
     [
       "module-resolver",
       {
@@ -7,10 +8,19 @@
           "./dist"
         ],
         "alias": {
-          "vs": "./dist/vs"
+          "vs": "./dist/vs",
+          "static": "./static"
         },
         "extensions": [
           ".js"
+        ]
+      }
+    ],
+    [
+      "import-require-as-string",
+      {
+        "extensions": [
+          ".css"
         ]
       }
     ]

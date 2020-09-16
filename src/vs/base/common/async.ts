@@ -60,8 +60,8 @@ export function raceTimeout<T>(promise: Promise<T>, timeout: number, onTimeout?:
 	let promiseResolve: (() => void) | undefined = undefined;
 
 	const timer = setTimeout(() => {
-		promiseResolve?.();
-		onTimeout?.();
+		if (promiseResolve) promiseResolve();
+		if (onTimeout) onTimeout();
 	}, timeout);
 
 	return Promise.race([
@@ -834,7 +834,7 @@ export class TaskSequentializer {
 	}
 
 	cancelPending(): void {
-		this._pending?.cancel();
+		if (this._pending) this._pending.cancel();
 	}
 
 	setPending(taskId: number, promise: Promise<void>, onCancel?: () => void,): Promise<void> {

@@ -22,9 +22,10 @@ import {
     prepend,
     removeNode
 } from 'vs/base/browser/dom';
-import {Menubar, MenubarOptions} from './menubar';
+import {Menubar} from './menubar';
 import {BrowserWindow} from 'electron';
-import {Theme, Themebar} from './themebar';
+import {Themebar} from './themebar';
+import {TitlebarOptions} from "./typings/titlebar";
 
 // we don't have typings yet for the module - so for a quick win, we require it in
 const remote = require("@treverix/remote");
@@ -37,66 +38,6 @@ const ACTIVE_FOREGROUND = Color.fromHex('#FFFFFF');
 const BOTTOM_TITLEBAR_HEIGHT = '60px';
 const TOP_TITLEBAR_HEIGHT_MAC = '22px';
 const TOP_TITLEBAR_HEIGHT_WIN = '30px';
-
-export interface TitlebarOptions extends MenubarOptions {
-    /**
-     * The background color of titlebar.
-     */
-    backgroundColor: Color;
-    /**
-     * The icon shown on the left side of titlebar.
-     */
-    icon?: string;
-    /**
-     * Style of the icons of titlebar.
-     * You can create your custom style using [`Theme`](https://github.com/AlexTorresSk/custom-electron-titlebar/THEMES.md)
-     */
-    iconsTheme: Theme;
-    /**
-     * The shadow color of titlebar.
-     */
-    shadow: boolean;
-    /**
-     * Define if the minimize window button is displayed.
-     * *The default is true*
-     */
-    minimizable?: boolean;
-    /**
-     * Define if the maximize and restore window buttons are displayed.
-     * *The default is true*
-     */
-    maximizable?: boolean;
-    /**
-     * Define if the close window button is displayed.
-     * *The default is true*
-     */
-    closeable?: boolean;
-    /**
-     * When the close button is clicked, the window is hidden instead of closed.
-     * *The default is false*
-     */
-    hideWhenClickingClose: boolean;
-    /**
-     * Enables or disables the blur option in titlebar.
-     * *The default is true*
-     */
-    unfocusEffect?: boolean;
-    /**
-     * Set the order of the elements on the title bar. You can use `inverted`, `first-buttons` or don't add for.
-     * *The default is normal*
-     */
-    order?: "inverted" | "first-buttons";
-    /**
-     * Set horizontal alignment of the window title.
-     * *The default value is center*
-     */
-    titleHorizontalAlignment: "left" | "center" | "right";
-    /**
-     * Sets the value for the overflow of the window.
-     * *The default value is auto*
-     */
-    overflow: "auto" | "hidden" | "visible";
-}
 
 const TitlebarEventType = {
     ...EventType,
@@ -156,7 +97,7 @@ export class Titlebar extends Themebar {
 
         this._options = {...defaultOptions, ...options};
 
-        if (!options?.iconsTheme) {
+        if (options && !options.iconsTheme) {
             if (isWindows || isLinux) {
                 this._options.iconsTheme = Themebar.win;
             } else {

@@ -1,0 +1,75 @@
+.titlebar.cet-mac {
+    padding: 0;
+}
+
+.titlebar .window-controls-container .window-icon-bg {
+    display: inline-block;
+    -webkit-app-region: no-drag;
+    height: 12px;
+    width: 12px;
+    margin: 7.5px 4px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.titlebar .window-controls-container .window-icon-bg.inactive {
+    background-color: #cdcdcd;
+}
+
+.titlebar .window-controls-container .window-icon-bg:not(.inactive) .window-icon {
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    -webkit-mask-size: 100% !important;
+    mask-size: 100% !important;
+}
+
+.titlebar .window-controls-container .window-icon-bg:not(.inactive) .window-icon:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.titlebar .window-controls-container .window-icon-bg:not(.inactive).window-minimize-bg {
+    background-color: #febc28;
+}
+
+.titlebar .window-controls-container .window-icon-bg:not(.inactive).window-minimize-bg:hover {
+    background-color: #feb30a;
+}
+
+.titlebar .window-controls-container .window-icon-bg:not(.inactive).window-restore-bg {
+    background-color: #01cc4e;
+}
+
+.titlebar .window-controls-container .window-icon-bg:not(.inactive).window-restore-bg:hover {
+    background-color: #01ae42;
+}
+
+.titlebar .window-controls-container .window-icon-bg:not(.inactive).window-close-bg {
+    background-color: #ff5b5d;
+}
+
+.titlebar .window-controls-container .window-icon-bg:not(.inactive).window-close-bg:hover {
+    background-color: #ff3c3f;
+}
+
+.titlebar .window-controls-container .window-icon-bg:not(.inactive).window-close-bg .window-close {
+    -webkit-mask: url("data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' fill='%23000'/%3E%3C/svg%3E") no-repeat 50% 50%;
+    mask: url("data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' fill='%23000'/%3E%3C/svg%3E") no-repeat 50% 50%;
+}
+
+.titlebar .window-controls-container .window-icon-bg:not(.inactive) .window-maximize {
+    -webkit-mask: url("data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18.17,12L15,8.83L16.41,7.41L21,12L16.41,16.58L15,15.17L18.17,12M5.83,12L9,15.17L7.59,16.59L3,12L7.59,7.42L9,8.83L5.83,12Z' fill='%23000'/%3E%3C/svg%3E") no-repeat 50% 50%;
+    mask: url("data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18.17,12L15,8.83L16.41,7.41L21,12L16.41,16.58L15,15.17L18.17,12M5.83,12L9,15.17L7.59,16.59L3,12L7.59,7.42L9,8.83L5.83,12Z' fill='%23000'/%3E%3C/svg%3E") no-repeat 50% 50%;
+    transform: rotate(-45deg);
+}
+
+.titlebar .window-controls-container .window-icon-bg:not(.inactive) .window-unmaximize {
+    -webkit-mask: url("data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.41,7.41L10,12L5.41,16.59L4,15.17L7.17,12L4,8.83L5.41,7.41M18.59,16.59L14,12L18.59,7.42L20,8.83L16.83,12L20,15.17L18.59,16.59Z' fill='%23000'/%3E%3C/svg%3E") no-repeat 50% 50%;
+    mask: url("data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.41,7.41L10,12L5.41,16.59L4,15.17L7.17,12L4,8.83L5.41,7.41M18.59,16.59L14,12L18.59,7.42L20,8.83L16.83,12L20,15.17L18.59,16.59Z' fill='%23000'/%3E%3C/svg%3E") no-repeat 50% 50%;
+    transform: rotate(-45deg);
+}
+
+.titlebar .window-controls-container .window-icon-bg:not(.inactive) .window-minimize {
+    -webkit-mask: url("data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19,13H5V11H19V13Z' fill='%23000'/%3E%3C/svg%3E") no-repeat 50% 50%;
+    mask: url("data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19,13H5V11H19V13Z' fill='%23000'/%3E%3C/svg%3E") no-repeat 50% 50%;
+}

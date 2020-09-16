@@ -755,7 +755,7 @@ export function getShadowRoot(domNode: Node): ShadowRoot | null {
 export function getActiveElement(): Element | null {
 	let result = document.activeElement;
 
-	while (result?.shadowRoot) {
+	while (result && result.shadowRoot) {
 		result = result.shadowRoot.activeElement;
 	}
 

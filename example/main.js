@@ -14,7 +14,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    frame: process.platform === 'darwin',  // the custom titlebar is useless on mac os
+    // the custom title bar works best on frameless windows. But on macos, the custom titlebar is usually useless.
+    frame: process.platform === 'darwin',
     webPreferences: {
       enableRemoteModule: true,
       preload: path.join(__dirname, 'preload.js'),

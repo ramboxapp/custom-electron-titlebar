@@ -7,6 +7,9 @@
     "paths": {
       "vs/*": [
         "./vs/*"
+      ],
+      "static/*": [
+        "../static/*"
       ]
     },
     "module": "commonjs",
