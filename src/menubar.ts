@@ -573,11 +573,11 @@ export class Menubar extends Disposable {
 
             if (this.menuItems[menuIndex].submenu) {
                 this.focusState = MenubarState.OPEN;
-            } else {
-                if (this.menuItems[menuIndex].menuItem.enabled) {
-                    this.onClick(menuIndex);
-                }
             }
+            if (this.menuItems[menuIndex].menuItem.enabled) {
+                this.onClick(menuIndex);
+            }
+
         }
     }
 
