@@ -52,7 +52,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
     private checkElement: HTMLElement | undefined;
     private iconElement: HTMLElement | undefined;
     private readonly mnemonic: KeyCode | undefined;
-    private readonly closeSubMenu: () => void;
+    protected readonly closeSubMenu: () => void;
 
     private event: Electron.Event | undefined;
     private readonly currentWindow: BrowserWindow;
@@ -155,6 +155,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
             this.item.checked = !this.item.checked;
             this.updateChecked();
         }
+
         this.closeSubMenu();
     }
 
