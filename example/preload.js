@@ -48,6 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
             {
               label: 'Submenu &item 2',
               accelerator: 'Ctrl+T',
+              click: () => console.log('Click on subitem 2')
             }
           ]
         }
