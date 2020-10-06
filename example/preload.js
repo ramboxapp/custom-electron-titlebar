@@ -3,7 +3,7 @@
 
 const path = require('path');
 const url = require('url');
-const {isMacintosh} = require('custom-electron-titlebar')
+const {isMacintosh} = require('@treverix/custom-electron-titlebar')
 //const {isMacintosh} = require('../dist')
 const {Menu, MenuItem} = require('@treverix/remote')
 
@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // It does not make sense to use the custom titlebar on macOS where
   // it only tries to simulate what we get with the normal behavior anyway.
   if (!isMacintosh) {
-    const customTitlebar = require('custom-electron-titlebar');
+    const customTitlebar = require('@treverix/custom-electron-titlebar');
     //const customTitlebar = require('../dist');  // for local library development and testing only
 
     // add a menu
