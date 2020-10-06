@@ -105,8 +105,12 @@ if (_isMacintosh) {
 	_platform = Platform.Linux;
 }
 
+// use the first two lines for development on MacOS only.
+// export const isWindows = true || _isWindows;
+// export const isMacintosh = false && _isMacintosh;
 export const isWindows = _isWindows;
 export const isMacintosh = _isMacintosh;
+
 export const isLinux = _isLinux;
 export const isNative = _isNative;
 export const isWeb = _isWeb;

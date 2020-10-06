@@ -11,14 +11,15 @@
 import {Color} from 'vs/base/common/color';
 import {MenuItem, Menu} from 'electron';
 import {$, addDisposableListener, EventType, removeClass, addClass, append, removeNode} from 'vs/base/browser/dom';
-import {cleanMnemonic, MENU_MNEMONIC_REGEX, MENU_ESCAPED_MNEMONIC_REGEX, IMenuOptions} from './menu';
+import {cleanMnemonic, MENU_MNEMONIC_REGEX, MENU_ESCAPED_MNEMONIC_REGEX} from './mnemonic';
+import {IMenuOptions, IMenuStyle} from './api';
 import {StandardKeyboardEvent} from 'vs/base/browser/keyboardEvent';
 import {KeyCodeUtils, KeyCode} from 'vs/base/common/keyCodes';
 import {Disposable, IDisposable, dispose} from 'vs/base/common/lifecycle';
 import {Event, Emitter} from 'vs/base/common/event';
 import {domEvent} from 'vs/base/browser/event';
 import {isMacintosh} from 'vs/base/common/platform';
-import {CETMenu, IMenuStyle} from "./menu";
+import {CETMenu} from "./menu";
 
 // we don't have typings yet for the module - so for a quick win, we require it in
 const remote = require("@treverix/remote");

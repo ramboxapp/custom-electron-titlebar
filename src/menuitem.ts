@@ -21,24 +21,11 @@ import {
     EventLike
 } from "vs/base/browser/dom";
 import {BrowserWindow, remote, Accelerator, NativeImage, MenuItem} from "electron";
-import {IMenuStyle, MENU_MNEMONIC_REGEX, cleanMnemonic, MENU_ESCAPED_MNEMONIC_REGEX, IMenuOptions} from "./menu";
+import {MENU_MNEMONIC_REGEX, cleanMnemonic, MENU_ESCAPED_MNEMONIC_REGEX} from "./mnemonic";
 import {KeyCode, KeyCodeUtils} from "vs/base/common/keyCodes";
 import {Disposable} from "vs/base/common/lifecycle";
 import {isMacintosh} from "vs/base/common/platform";
-
-export interface IMenuItem {
-    render(element: HTMLElement): void;
-
-    isEnabled(): boolean;
-
-    isSeparator(): boolean;
-
-    focus(): void;
-
-    blur(): void;
-
-    dispose(): void;
-}
+import {IMenuItem, IMenuStyle, IMenuOptions} from './api'
 
 export class CETMenuItem extends Disposable implements IMenuItem {
 
@@ -57,8 +44,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
     private event: Electron.Event | undefined;
     private readonly currentWindow: BrowserWindow;
 
-    constructor(item: MenuItem, options: IMenuOptions = {}, closeSubMenu = () => {
-    }) {
+    constructor(item: MenuItem, options: IMenuOptions = {}, closeSubMenu = () => {}) {
         super();
 
         this.item = item;
@@ -67,13 +53,10 @@ export class CETMenuItem extends Disposable implements IMenuItem {
         this.closeSubMenu = closeSubMenu;
 
         // Set mnemonic
-        if (this.item.label && options.enableMnemonics) {
-            let label = this.item.label;
-            if (label) {
-                let matches = MENU_MNEMONIC_REGEX.exec(label);
-                if (matches) {
-                    this.mnemonic = KeyCodeUtils.fromString((!!matches[1] ? matches[1] : matches[2]).toLocaleUpperCase());
-                }
+        if (this.item?.label && options.enableMnemonics) {
+            const matches = MENU_MNEMONIC_REGEX.exec(this.item.label);
+            if (matches) {
+                this.mnemonic = KeyCodeUtils.fromString((!!matches[1] ? matches[1] : matches[3]).toLocaleUpperCase());
             }
         }
     }
@@ -351,7 +334,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 
     dispose(): void {
         if (this.itemElement) {
-            removeNode(this.itemElement);
+            this.itemElement.remove();
             this.itemElement = undefined;
         }
 
@@ -367,17 +350,20 @@ export class CETMenuItem extends Disposable implements IMenuItem {
             return;
         }
 
-        const isSelected = this.container && hasClass(this.container, 'focused');
+        const isSelected = this.container && this.container.classList.contains('focused');
         const fgColor = isSelected && this.menuStyle.selectionForegroundColor ? this.menuStyle.selectionForegroundColor : this.menuStyle.foregroundColor;
         const bgColor = isSelected && this.menuStyle.selectionBackgroundColor ? this.menuStyle.selectionBackgroundColor : this.menuStyle.backgroundColor;
 
-        if (!this.checkElement || !this.itemElement) return;
+        if (!this.checkElement || !this.itemElement) {
+            return;
+        }
+
         if (fgColor) {
-            this.checkElement.style.backgroundColor = fgColor.toString();
             this.itemElement.style.color = fgColor.toString();
+            this.checkElement.style.backgroundColor = fgColor.toString();
         } else {
-            this.checkElement.style.removeProperty('background-color');
             this.itemElement.style.removeProperty('color');
+            this.checkElement.style.removeProperty('background-color');
         }
 
         if (bgColor) {

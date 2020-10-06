@@ -24,27 +24,12 @@ import {
 import {KeyCode, KeyCodeUtils, KeyMod} from "vs/base/common/keyCodes";
 import {isLinux} from "vs/base/common/platform";
 import {StandardKeyboardEvent} from "vs/base/browser/keyboardEvent";
-import {IMenuItem, CETMenuItem} from "./menuitem";
+import {CETMenuItem} from "./menuitem";
+import {IMenuItem, IMenuStyle, IMenuOptions} from "./api";
 import {Disposable, dispose, IDisposable} from "vs/base/common/lifecycle";
 import {Event, Emitter} from "vs/base/common/event";
 import {RunOnceScheduler} from "vs/base/common/async";
 import {MenuItem, Menu} from "electron";
-
-export const MENU_MNEMONIC_REGEX = /\(&([^\s&])\)|(^|[^&])&([^\s&])/;
-export const MENU_ESCAPED_MNEMONIC_REGEX = /(&amp;)?(&amp;)([^\s&])/g;
-
-export interface IMenuOptions {
-    ariaLabel?: string;
-    enableMnemonics?: boolean;
-}
-
-export interface IMenuStyle {
-    foregroundColor?: Color;
-    backgroundColor?: Color;
-    selectionForegroundColor?: Color;
-    selectionBackgroundColor?: Color;
-    separatorColor?: Color;
-}
 
 interface ISubMenuData {
     parent: CETMenu;
@@ -708,15 +693,4 @@ class Separator extends CETMenuItem {
     }
 }
 
-export function cleanMnemonic(label: string): string {
-    const regex = MENU_MNEMONIC_REGEX;
 
-    const matches = regex.exec(label);
-    if (!matches) {
-        return label;
-    }
-
-    const mnemonicInText = !matches[1];
-
-    return label.replace(regex, mnemonicInText ? '$2$3' : '').trim();
-}

@@ -1,4 +1,4 @@
-import * as customElectronTitlebar from '.'
+const customElectronTitlebar = require('../index');
 
 jest.mock('@treverix/remote');
 
