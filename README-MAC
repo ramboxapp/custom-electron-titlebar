@@ -1,0 +1,10 @@
+To maintain this library on MacOS
+
+1. open platform.ts
+2. uncomment lines 109, 110 - comment line 111, 112
+
+Reason: the title bar is not visible on MacOS by default. This hack makes it visible and so we can test and maintain it
+
+WARNING!!
+
+remove the change before releasing, clear the dist folder and rebuild.

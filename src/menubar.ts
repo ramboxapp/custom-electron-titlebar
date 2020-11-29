@@ -22,7 +22,7 @@ import {isMacintosh} from 'vs/base/common/platform';
 import {CETMenu} from "./menu";
 
 // we don't have typings yet for the module - so for a quick win, we require it in
-const remote = require("@treverix/remote");
+const remote = require("@electron/remote");
 
 export interface MenubarOptions {
     /**
@@ -211,7 +211,7 @@ export class Menubar extends Disposable {
 
             // Register mnemonics
             if (mnemonicMatches) {
-                let mnemonic = !!mnemonicMatches[1] ? mnemonicMatches[1] : mnemonicMatches[2];
+                let mnemonic = !!mnemonicMatches[1] ? mnemonicMatches[1] : mnemonicMatches[3];
 
                 this.registerMnemonic(this.menuItems.length, mnemonic);
             }
@@ -317,9 +317,6 @@ export class Menubar extends Disposable {
     }
 
     private updateLabels(titleElement: HTMLElement, buttonElement: HTMLElement, label: string): void {
-        const cleanMenuLabel = cleanMnemonic(label);
-
-        // Update the button label to reflect mnemonics
 
         if (this.options.enableMnemonics) {
             let innerHtml = escape(label);
@@ -340,6 +337,7 @@ export class Menubar extends Disposable {
             innerHtml = innerHtml.replace(/&amp;&amp;/g, '&amp;');
             titleElement.innerHTML = innerHtml;
         } else {
+            const cleanMenuLabel = cleanMnemonic(label);
             titleElement.innerHTML = cleanMenuLabel.replace(/&&/g, '&');
         }
 
@@ -645,6 +643,7 @@ export class Menubar extends Disposable {
     }
 
     private showMenu(menuIndex: number, selectFirst = true): void {
+        console.log('About to show the menu')
         const customMenu = this.menuItems[menuIndex];
         const menuHolder = $('ul.menubar-menu-container');
 

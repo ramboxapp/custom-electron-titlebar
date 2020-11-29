@@ -28,7 +28,7 @@ import {Themebar} from './themebar';
 import {TitlebarOptions} from "./typings/titlebar";
 
 // we don't have typings yet for the module - so for a quick win, we require it in
-const remote = require("@treverix/remote");
+const remote = require("@electron/remote");
 
 const INACTIVE_FOREGROUND_DARK = Color.fromHex('#222222');
 const ACTIVE_FOREGROUND_DARK = Color.fromHex('#333333');

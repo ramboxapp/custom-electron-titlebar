@@ -26,6 +26,10 @@ import {KeyCode, KeyCodeUtils} from "vs/base/common/keyCodes";
 import {Disposable} from "vs/base/common/lifecycle";
 import {isMacintosh} from "vs/base/common/platform";
 import {IMenuItem, IMenuStyle, IMenuOptions} from './api'
+import * as strings from 'vs/base/common/strings';
+import {EventType as TouchEventType} from 'vs/base/browser/touch';
+
+let menuItemId = 0;
 
 export class CETMenuItem extends Disposable implements IMenuItem {
 
@@ -44,29 +48,34 @@ export class CETMenuItem extends Disposable implements IMenuItem {
     private event: Electron.Event | undefined;
     private readonly currentWindow: BrowserWindow;
 
-    constructor(item: MenuItem, options: IMenuOptions = {}, closeSubMenu = () => {}) {
+    constructor(item: MenuItem, options: IMenuOptions = {}, closeSubMenu = () => {
+    }) {
         super();
 
         this.item = item;
         this.options = options;
+        this.options.icon = options.icon !== undefined ? options.icon : false;
+        this.options.label = options.label !== undefined ? options.label : true;
+
         this.currentWindow = remote.getCurrentWindow();
         this.closeSubMenu = closeSubMenu;
 
         // Set mnemonic
-        if (this.item?.label && options.enableMnemonics) {
-            const matches = MENU_MNEMONIC_REGEX.exec(this.item.label);
-            if (matches) {
-                this.mnemonic = KeyCodeUtils.fromString((!!matches[1] ? matches[1] : matches[3]).toLocaleUpperCase());
+        if (this.options.label && options.enableMnemonics) {
+            let label = this.item.label;
+            if (label) {
+                const matches = MENU_MNEMONIC_REGEX.exec(label);
+                if (matches) {
+                    this.mnemonic = KeyCodeUtils.fromString((!!matches[1] ? matches[1] : matches[3]).toLocaleUpperCase());
+                }
             }
         }
+
+        //this.item._id = menuItemId++;
     }
 
     getContainer() {
         return this.container;
-    }
-
-    getItem(): MenuItem {
-        return this.item;
     }
 
     isEnabled(): boolean {
@@ -78,11 +87,15 @@ export class CETMenuItem extends Disposable implements IMenuItem {
     }
 
     render(container: HTMLElement): void {
+        if (!container) return;
+
         this.container = container;
 
-        this._register(addDisposableListener(this.container, EventType.MOUSE_DOWN, e => {
-            if (this.item.enabled && e.button === 0 && this.container) {
-                addClass(this.container, 'active');
+        this._register(addDisposableListener(this.container!, TouchEventType.Tap, e => this.onClick(e)));
+
+        this._register(addDisposableListener(this.container!, EventType.MOUSE_DOWN, e => {
+            if (this.item.enabled && e.button === 0) {
+                this.container!.classList.add('active');
             }
         }));
 
@@ -99,7 +112,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
         [EventType.MOUSE_UP, EventType.MOUSE_OUT].forEach(event => {
             this._register(addDisposableListener(this.container!, event, e => {
                 EventHelper.stop(e);
-                removeClass(this.container!, 'active');
+                this.container!.classList.remove('active');
             }));
         });
 
@@ -162,7 +175,6 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 
     setAccelerator(): void {
         let accelerator = null;
-
         if (this.item.role) {
             switch (this.item.role.toLocaleLowerCase()) {
                 case 'undo':
@@ -240,7 +252,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
                 const matches = MENU_MNEMONIC_REGEX.exec(label);
 
                 if (matches) {
-                    label = escape(label);
+                    label = strings.escape(label);
 
                     // This is global, reset it
                     MENU_ESCAPED_MNEMONIC_REGEX.lastIndex = 0;
@@ -251,8 +263,12 @@ export class CETMenuItem extends Disposable implements IMenuItem {
                         escMatch = MENU_ESCAPED_MNEMONIC_REGEX.exec(label);
                     }
 
+                    const replaceDoubleEscapes = (str: string) => str.replace(/&amp;&amp;/g, '&amp;');
+
                     if (escMatch) {
                         label = `${label.substr(0, escMatch.index)}<u aria-hidden="true">${escMatch[3]}</u>${label.substr(escMatch.index + escMatch[0].length)}`;
+                    } else {
+
                     }
 
                     label = label.replace(/&amp;&amp;/g, '&amp;');
@@ -322,11 +338,11 @@ export class CETMenuItem extends Disposable implements IMenuItem {
         if (!this.itemElement) return
 
         if (this.item.checked) {
-            addClass(this.itemElement, 'checked');
+            this.itemElement.classList.add('checked')
             this.itemElement.setAttribute('role', 'menuitemcheckbox');
             this.itemElement.setAttribute('aria-checked', 'true');
         } else {
-            removeClass(this.itemElement, 'checked');
+            this.itemElement.classList.remove('checked')
             this.itemElement.setAttribute('role', 'menuitem');
             this.itemElement.setAttribute('aria-checked', 'false');
         }
@@ -380,12 +396,11 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 }
 
 function parseAccelerator(a: Accelerator): string {
-    let accelerator = a.toString();
-
+    let accelerator;
     if (!isMacintosh) {
-        accelerator = accelerator.replace(/(Cmd)|(Command)/gi, '');
+        accelerator = a.replace(/(Cmd)|(Command)/gi, '');
     } else {
-        accelerator = accelerator.replace(/(Ctrl)|(Control)/gi, '');
+        accelerator = a.replace(/(Ctrl)|(Control)/gi, '');
     }
 
     accelerator = accelerator.replace(/(Or)/gi, '');

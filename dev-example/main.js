@@ -3,7 +3,7 @@ const { app, BrowserWindow } = require('electron')
 const path = require('path')
 
 // initialize the remote module
-require('@electron/remote/main').initialize()
+require('@treverix/remote/main').initialize()
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

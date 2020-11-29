@@ -15,6 +15,8 @@ export interface IMenuItem {
 }
 
 export interface IMenuOptions {
+    icon?: boolean;
+    label?: boolean;
     ariaLabel?: string;
     enableMnemonics?: boolean;
 }
