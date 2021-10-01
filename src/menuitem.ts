@@ -20,7 +20,8 @@ import {
     EventHelper,
     EventLike
 } from "vs/base/browser/dom";
-import {BrowserWindow, remote, Accelerator, NativeImage, MenuItem} from "electron";
+import {BrowserWindow, Accelerator, NativeImage, MenuItem} from "electron";
+import {getCurrentWindow} from '@electron/remote';
 import {MENU_MNEMONIC_REGEX, cleanMnemonic, MENU_ESCAPED_MNEMONIC_REGEX} from "./mnemonic";
 import {KeyCode, KeyCodeUtils} from "vs/base/common/keyCodes";
 import {Disposable} from "vs/base/common/lifecycle";
@@ -57,7 +58,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
         this.options.icon = options.icon !== undefined ? options.icon : false;
         this.options.label = options.label !== undefined ? options.label : true;
 
-        this.currentWindow = remote.getCurrentWindow();
+        this.currentWindow = getCurrentWindow();
         this.closeSubMenu = closeSubMenu;
 
         // Set mnemonic

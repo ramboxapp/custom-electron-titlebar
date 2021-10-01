@@ -860,7 +860,7 @@ export class IdleValue<T> {
 //#endregion
 
 export async function retry<T>(task: ITask<Promise<T>>, delay: number, retries: number): Promise<T> {
-	let lastError: Error | undefined;
+	let lastError: Error | unknown;
 
 	for (let i = 0; i < retries; i++) {
 		try {
