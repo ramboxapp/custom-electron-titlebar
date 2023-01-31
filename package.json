@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "prepare": "npm run build",
     "prepublishOnly": "npm run build",
     "build:test": "tsc && babel ./dist --out-dir ./dist --extensions \".js\" & ncp ./src ./dist --filter=\"^.*\\.js$\"",
     "build": "tsc && babel ./dist --out-dir ./dist --extensions \".js\"",
