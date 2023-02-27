@@ -205,12 +205,19 @@ export class Titlebar extends Themebar {
 
         // Maximize/Restore on doubleclick
         if (isMacintosh) {
-            let isMaximized = this.currentWindow.isMaximized();
-            this._register(addDisposableListener(this.titlebar, EventType.DBLCLICK, () => {
-                isMaximized = !isMaximized;
-                this.onDidChangeMaximized(isMaximized);
-            }));
-        }
+			let isMaximized = this.currentWindow.isMaximized();
+			this._register(
+				addDisposableListener(this.titlebar, EventType.DBLCLICK, () => {
+					const doubleClickAction = remote.systemPreferences.getUserDefault('AppleActionOnDoubleClick', 'string');
+					doubleClickAction === 'Minimize' && this.currentWindow.minimize();
+					doubleClickAction === 'Maximize' && !this.currentWindow.isMaximized()
+						? this.currentWindow.maximize()
+						: this.currentWindow.unmaximize();
+					isMaximized = !isMaximized;
+					this.onDidChangeMaximized(isMaximized);
+				})
+			);
+		}
 
         // Window Controls (Windows/Linux)
         if (!isMacintosh) {
