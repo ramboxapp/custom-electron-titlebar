@@ -1,5 +1,5 @@
 {
-  "name": "@treverix/custom-electron-titlebar",
+  "name": "@fvulich/custom-electron-titlebar",
   "version": "4.2.0",
   "description": "Custom Electron Titlebar is a library for electron 10+ that allows you to configure a fully customizable title bar.",
   "main": "dist/index.js",
@@ -14,14 +14,14 @@
     "start": "npm run build && npm run dev-example",
     "test": "jest"
   },
-  "author": "Andreas Dolk <treverixdev@gmail.com>",
+  "author": "Andreas Dolk <fvulich@gmail.com>",
   "contributors": [
     "Alex Torres <alextorressk@gmail.com>"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Treverix/custom-electron-titlebar.git"
+    "url": "git+https://github.com/fvulich/custom-electron-titlebar.git"
   },
   "keywords": [
     "typescript",
@@ -32,9 +32,9 @@
     "linux"
   ],
   "bugs": {
-    "url": "https://github.com/Treverix/custom-electron-titlebar/issues"
+    "url": "https://github.com/fvulich/custom-electron-titlebar/issues"
   },
-  "homepage": "https://github.com/Treverix/custom-electron-titlebar#readme",
+  "homepage": "https://github.com/fvulich/custom-electron-titlebar#readme",
   "directories": {
     "example": "example",
     "lib": "lib"
